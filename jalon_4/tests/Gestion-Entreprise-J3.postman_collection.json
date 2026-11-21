@@ -1,0 +1,416 @@
+{
+  "info": {
+    "name": "Gestion d’entreprise — Jalon 3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Exécuter le dossier 01 sur les applications démarrées. Les dossiers suivants sont des scénarios manuels."
+  },
+  "variable": [
+    {
+      "key": "departement",
+      "value": "http://localhost:8080/departement-service"
+    },
+    {
+      "key": "employe",
+      "value": "http://localhost:8080/employe-service"
+    },
+    {
+      "key": "mission",
+      "value": "http://localhost:8080/mission-service"
+    },
+    {
+      "key": "config",
+      "value": "http://localhost:8888"
+    },
+    {
+      "key": "execution",
+      "value": ""
+    },
+    {
+      "key": "missionId",
+      "value": ""
+    },
+    {
+      "key": "departementId",
+      "value": ""
+    },
+    {
+      "key": "employeId",
+      "value": ""
+    },
+    {
+      "key": "missionDiffereeId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Parcours normal et erreurs",
+      "item": [
+        {
+          "name": "Département initial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{departement}}/departements/1"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"execution\", pm.variables.replaceIn(\"{{$guid}}\"));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"id\", () => pm.expect(body[\"id\"]).to.eql(1));",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Département créé",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{departement}}/departements",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Direction-{{execution}}\",\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"departementId\", String(body.id));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Département absent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{departement}}/departements/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Département invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{departement}}/departements",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"\",\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Employé créé",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{employe}}/employes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"karim-{{execution}}@example.test\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"employeId\", String(body.id));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Employé absent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{employe}}/employes/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Email invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{employe}}/employes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"invalide\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Configuration agrégée depuis Git",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{config}}/mission-service/default/main"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"name\", () => pm.expect(body[\"name\"]).to.eql(\"mission-service\"));",
+                  "pm.test(\"label\", () => pm.expect(body[\"label\"]).to.eql(\"main\"));",
+                  "pm.test(\"propertySources.0.source.server.port\", () => pm.expect(body[\"propertySources\"][\"0\"][\"source\"][\"server.port\"]).to.eql(\"8083\"));",
+                  "pm.test(\"propertySources.1.source.info.projet\", () => pm.expect(body[\"propertySources\"][\"1\"][\"source\"][\"info.projet\"]).to.eql(\"Gestion d'entreprise\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Mission créée",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau {{execution}}\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"statut\", () => pm.expect(body[\"statut\"]).to.eql(\"VALIDEE\"));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"missionId\", String(body.id));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Mission locale",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mission}}/missions/{{missionId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"id\", () => pm.expect(body[\"id\"]).to.eql(Number(pm.collectionVariables.get(\"missionId\"))));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Mission absente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mission}}/missions/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Durée invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Trop longue\",\n  \"dureeJours\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}
