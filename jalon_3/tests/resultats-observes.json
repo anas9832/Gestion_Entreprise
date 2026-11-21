@@ -1,0 +1,597 @@
+{
+  "jalon": 3,
+  "java": "OpenJDK 17.0.19",
+  "maven": "3.9.11",
+  "springBoot": "3.5.6",
+  "springCloud": "2025.0.0",
+  "infrastructure": null,
+  "assertionsPostman": 28,
+  "dateUtc": "2026-11-09T01:38:25+00:00",
+  "scenarios": [
+    {
+      "name": "Services enregistrés dans Eureka",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8761/eureka/apps",
+        "entetes": {
+          "Accept": "application/json"
+        },
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "applications": {
+            "versions__delta": "1",
+            "apps__hashcode": "UP_4_",
+            "application": [
+              {
+                "name": "API-GATEWAY",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:api-gateway:8080",
+                    "hostName": "localhost",
+                    "app": "API-GATEWAY",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8080,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188269643,
+                      "lastRenewalTimestamp": 1794188293971,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188268581
+                    },
+                    "metadata": {
+                      "management.port": "8080"
+                    },
+                    "homePageUrl": "http://localhost:8080/",
+                    "statusPageUrl": "http://localhost:8080/actuator/info",
+                    "healthCheckUrl": "http://localhost:8080/actuator/health",
+                    "vipAddress": "api-gateway",
+                    "secureVipAddress": "api-gateway",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188269643",
+                    "lastDirtyTimestamp": "1794188268274",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "MISSION-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:mission-service:8083",
+                    "hostName": "localhost",
+                    "app": "MISSION-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8083,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188276606,
+                      "lastRenewalTimestamp": 1794188296344,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188276022
+                    },
+                    "metadata": {
+                      "management.port": "8083"
+                    },
+                    "homePageUrl": "http://localhost:8083/",
+                    "statusPageUrl": "http://localhost:8083/actuator/info",
+                    "healthCheckUrl": "http://localhost:8083/actuator/health",
+                    "vipAddress": "mission-service",
+                    "secureVipAddress": "mission-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188276606",
+                    "lastDirtyTimestamp": "1794188275841",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "EMPLOYE-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:employe-service:8082",
+                    "hostName": "localhost",
+                    "app": "EMPLOYE-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8082,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188275840,
+                      "lastRenewalTimestamp": 1794188295641,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188275302
+                    },
+                    "metadata": {
+                      "management.port": "8082"
+                    },
+                    "homePageUrl": "http://localhost:8082/",
+                    "statusPageUrl": "http://localhost:8082/actuator/info",
+                    "healthCheckUrl": "http://localhost:8082/actuator/health",
+                    "vipAddress": "employe-service",
+                    "secureVipAddress": "employe-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188275840",
+                    "lastDirtyTimestamp": "1794188275080",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "DEPARTEMENT-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:departement-service:8081",
+                    "hostName": "localhost",
+                    "app": "DEPARTEMENT-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8081,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188277119,
+                      "lastRenewalTimestamp": 1794188296994,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188276580
+                    },
+                    "metadata": {
+                      "management.port": "8081"
+                    },
+                    "homePageUrl": "http://localhost:8081/",
+                    "statusPageUrl": "http://localhost:8081/actuator/info",
+                    "healthCheckUrl": "http://localhost:8081/actuator/health",
+                    "vipAddress": "departement-service",
+                    "secureVipAddress": "departement-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188277119",
+                    "lastDirtyTimestamp": "1794188276406",
+                    "actionType": "ADDED"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dureeMs": 29
+      }
+    },
+    {
+      "name": "Département initial",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/departement-service/departements/1",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "id": 1,
+          "nom": "Informatique",
+          "actif": true
+        },
+        "dureeMs": 62
+      }
+    },
+    {
+      "name": "Département créé",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/departement-service/departements",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Direction-dfc72c29-1e3f-44db-ad36-6920e2f9cfdb",
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "departements/4"
+        },
+        "json": {
+          "id": 4,
+          "nom": "Direction-dfc72c29-1e3f-44db-ad36-6920e2f9cfdb",
+          "actif": true
+        },
+        "dureeMs": 285
+      }
+    },
+    {
+      "name": "Département absent",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/departement-service/departements/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Departement 999999 introuvable.",
+          "instance": "/departements/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 123
+      }
+    },
+    {
+      "name": "Département invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/departement-service/departements",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "",
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Corrigez les champs indiqués.",
+          "instance": "/departements",
+          "code": "VALIDATION",
+          "errors": {
+            "nom": "must not be blank"
+          }
+        },
+        "dureeMs": 80
+      }
+    },
+    {
+      "name": "Employé créé",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/employe-service/employes",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Karim de la démo",
+          "email": "karim-dfc72c29-1e3f-44db-ad36-6920e2f9cfdb@example.test",
+          "departementId": 1,
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "employes/5"
+        },
+        "json": {
+          "id": 5,
+          "nom": "Karim de la démo",
+          "email": "karim-dfc72c29-1e3f-44db-ad36-6920e2f9cfdb@example.test",
+          "departementId": 1,
+          "actif": true
+        },
+        "dureeMs": 233
+      }
+    },
+    {
+      "name": "Employé absent",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/employe-service/employes/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Employe 999999 introuvable.",
+          "instance": "/employes/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 153
+      }
+    },
+    {
+      "name": "Email invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/employe-service/employes",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Karim de la démo",
+          "email": "invalide",
+          "departementId": 1,
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Corrigez les champs indiqués.",
+          "instance": "/employes",
+          "code": "VALIDATION",
+          "errors": {
+            "email": "must be a well-formed email address"
+          }
+        },
+        "dureeMs": 129
+      }
+    },
+    {
+      "name": "Configuration agrégée depuis Git",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8888/mission-service/default/main",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "name": "mission-service",
+          "profiles": [
+            "default"
+          ],
+          "label": "main",
+          "version": "477f2e7ec31e6e8871507ad5c5f929e6cb578100",
+          "state": "",
+          "propertySources": [
+            {
+              "name": "file:///workspace/scratch/1b345f85c4bd/projet/jalon_3/config-repo//mission-service.properties",
+              "source": {
+                "server.port": "8083",
+                "spring.datasource.url": "jdbc:h2:file:${ENTREPRISE_DATA_DIR:./data}/mission-service",
+                "spring.datasource.username": "sa",
+                "spring.datasource.password": "",
+                "eureka.client.service-url.defaultZone": "${EUREKA_URL:http://localhost:8761/eureka/}",
+                "eureka.client.registry-fetch-interval-seconds": "5",
+                "eureka.client.initial-instance-info-replication-interval-seconds": "3",
+                "eureka.client.instance-info-replication-interval-seconds": "5",
+                "eureka.instance.hostname": "${SERVICE_HOST:localhost}",
+                "eureka.instance.lease-renewal-interval-in-seconds": "5",
+                "eureka.instance.lease-expiration-duration-in-seconds": "15"
+              }
+            },
+            {
+              "name": "file:///workspace/scratch/1b345f85c4bd/projet/jalon_3/config-repo//application.properties",
+              "source": {
+                "spring.jpa.hibernate.ddl-auto": "update",
+                "spring.jpa.open-in-view": "false",
+                "management.endpoints.web.exposure.include": "health,info",
+                "info.projet": "Gestion d'entreprise"
+              }
+            }
+          ]
+        },
+        "dureeMs": 174
+      }
+    },
+    {
+      "name": "Mission créée",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau dfc72c29-1e3f-44db-ad36-6920e2f9cfdb",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/1"
+        },
+        "json": {
+          "id": 1,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau dfc72c29-1e3f-44db-ad36-6920e2f9cfdb",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:38:04.819280Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 580
+      }
+    },
+    {
+      "name": "Mission locale",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions/1",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "id": 1,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau dfc72c29-1e3f-44db-ad36-6920e2f9cfdb",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:38:04.819280Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 66
+      }
+    },
+    {
+      "name": "Mission absente",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Mission 999999 introuvable.",
+          "instance": "/missions/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 88
+      }
+    },
+    {
+      "name": "Durée invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Trop longue",
+          "dureeJours": 0
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Corrigez les champs indiqués.",
+          "instance": "/missions",
+          "code": "VALIDATION",
+          "errors": {
+            "dureeJours": "must be greater than or equal to 1"
+          }
+        },
+        "dureeMs": 103
+      }
+    }
+  ],
+  "scenarioCount": 13
+}
