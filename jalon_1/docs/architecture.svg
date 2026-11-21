@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 716 312" width="716" height="312" role="img" aria-labelledby="title">
+<title id="title">Architecture de Gestion d’entreprise au jalon 1</title>
+<defs><marker id="rest" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#365676"/></marker><marker id="feign" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#147d82"/></marker><marker id="event" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#ad6322"/></marker><marker id="control" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#7655a8"/></marker></defs>
+<style>
+text {font-family: "Segoe UI", "DejaVu Sans", sans-serif; fill: #1a3149}
+.heading {font-size:14px;font-weight:700}
+.title {font-size:14px;font-weight:650}
+.label {font-size:12px}
+.small {font-size:11px;fill:#425c74}
+.app {fill:#e4f4f3;stroke:#82aaa9}
+.client {fill:#e7edf6;stroke:#91a8c1}
+.infra {fill:#eee9fa;stroke:#b0a1d1}
+.external {fill:#fff1d7;stroke:#d5ac73}
+.edge {fill:none;stroke-width:1.8;stroke-linejoin:round}
+.control {stroke-dasharray:4 3}
+.rest{stroke:#365676}.feign{stroke:#147d82}.event{stroke:#ad6322}.control{stroke:#7655a8}
+</style>
+<rect width="716" height="312" rx="16" fill="#fff"/>
+<rect x="10" y="10" width="696" height="292" rx="14" fill="#f6f9fc" stroke="#d8e1ed"/>
+<text x="27" y="36" class="heading" text-anchor="start">Flux métier et données</text>
+<rect x="269" y="49" width="178" height="52" rx="9" class="client"/>
+<text x="358.0" y="71" class="title" text-anchor="middle">Client REST</text>
+<text x="358.0" y="89" class="small" text-anchor="middle">Postman</text>
+<path d="M 358 101 V 163 H 136 V 226" class="edge rest" marker-end="url(#rest)"/>
+<path d="M 358 163 V 226" class="edge rest" marker-end="url(#rest)"/>
+<path d="M 358 163 H 580 V 226" class="edge rest" marker-end="url(#rest)"/>
+<text x="378" y="155" class="small" text-anchor="start">REST direct</text>
+<rect x="34" y="226" width="204" height="54" rx="9" class="app"/>
+<text x="136.0" y="248" class="title" text-anchor="middle">departement-service</text>
+<text x="136.0" y="266" class="small" text-anchor="middle">HTTP :8081 · base H2</text>
+<rect x="256" y="226" width="204" height="54" rx="9" class="app"/>
+<text x="358.0" y="248" class="title" text-anchor="middle">employe-service</text>
+<text x="358.0" y="266" class="small" text-anchor="middle">HTTP :8082 · base H2</text>
+<rect x="478" y="226" width="204" height="54" rx="9" class="app"/>
+<text x="580.0" y="248" class="title" text-anchor="middle">mission-service</text>
+<text x="580.0" y="266" class="small" text-anchor="middle">HTTP :8083 · base H2</text>
+</svg>
