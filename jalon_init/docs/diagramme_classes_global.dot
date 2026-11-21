@@ -1,0 +1,142 @@
+digraph Classes {
+ graph [rankdir=TB, bgcolor="white", fontname="DejaVu Sans", fontsize=13, labelloc=t, pad=0.36, nodesep=0.68, ranksep=0.75, splines=polyline, compound=true, newrank=true, outputorder=edgesfirst];
+ node [shape=plain, fontname="DejaVu Sans", margin=0];
+ edge [fontname="DejaVu Sans", fontsize=10, color="#64748B", fontcolor="#475569", penwidth=1.2, arrowsize=0.8, arrowhead=vee];
+ subgraph cluster_departement {
+  label="Département · departement-service";
+  fontcolor="#1E40AF"; color="#1E40AF"; penwidth=1.35; style="rounded"; bgcolor="#F8FAFC"; margin=20;
+  node [color="#1E40AF"];
+  D_Controller [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#1E40AF" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>DepartementController</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">controller</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ modifier()</FONT></TD></TR>
+     </TABLE>
+   >];
+  D_Service [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#1E40AF" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>DepartementService</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">service</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ modifier()</FONT></TD></TR>
+     </TABLE>
+   >];
+  D_Repository [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#1E40AF" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>DepartementRepository</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">interface JpaRepository</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ findByCleIdempotence()</FONT></TD></TR>
+     </TABLE>
+   >];
+  D_Entite [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#1E40AF" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>Departement</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">entity</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">- id : Long<BR ALIGN="LEFT"/>- nom : String<BR ALIGN="LEFT"/>- actif : Boolean<BR ALIGN="LEFT"/>- cleIdempotence : String<BR ALIGN="LEFT"/>- empreinte : String</FONT></TD></TR><TR><TD HEIGHT="1" BGCOLOR="#E2E8F0"></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ modifier()<BR ALIGN="LEFT"/>+ vue()</FONT></TD></TR>
+     </TABLE>
+   >];
+  D_Dto [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#1E40AF" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>DepartementDto</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">DTO · records</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ Demande(nom, actif)<BR ALIGN="LEFT"/>+ Vue(id, nom, actif)</FONT></TD></TR>
+     </TABLE>
+   >];
+  D_Controller -> D_Service [label="délègue"];
+  D_Service -> D_Repository [label="utilise"];
+  D_Repository -> D_Entite [label="persiste"];
+  D_Service -> D_Dto [label="échange", constraint=false];
+  D_Entite -> D_Dto [style=dotted, arrowhead=vee, color="#94A3B8", constraint=false];
+ }
+ subgraph cluster_employe {
+  label="Employé · employe-service";
+  fontcolor="#0F766E"; color="#0F766E"; penwidth=1.35; style="rounded"; bgcolor="#F8FAFC"; margin=20;
+  node [color="#0F766E"];
+  E_Controller [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#0F766E" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>EmployeController</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">controller</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ modifier()</FONT></TD></TR>
+     </TABLE>
+   >];
+  E_Service [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#0F766E" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>EmployeService</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">service</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ modifier()</FONT></TD></TR>
+     </TABLE>
+   >];
+  E_Repository [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#0F766E" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>EmployeRepository</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">interface JpaRepository</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ findByCleIdempotence()</FONT></TD></TR>
+     </TABLE>
+   >];
+  E_Entite [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#0F766E" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>Employe</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">entity</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">- id : Long<BR ALIGN="LEFT"/>- nom : String<BR ALIGN="LEFT"/>- email : String<BR ALIGN="LEFT"/>- departementId : Long<BR ALIGN="LEFT"/>- actif : Boolean<BR ALIGN="LEFT"/>- cleIdempotence : String<BR ALIGN="LEFT"/>- empreinte : String</FONT></TD></TR><TR><TD HEIGHT="1" BGCOLOR="#E2E8F0"></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ modifier()<BR ALIGN="LEFT"/>+ vue()</FONT></TD></TR>
+     </TABLE>
+   >];
+  E_Dto [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#0F766E" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>EmployeDto</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">DTO · records</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ Demande(nom, email, ...)<BR ALIGN="LEFT"/>+ Vue(id, nom, email, ...)</FONT></TD></TR>
+     </TABLE>
+   >];
+  E_Controller -> E_Service [label="délègue"];
+  E_Service -> E_Repository [label="utilise"];
+  E_Repository -> E_Entite [label="persiste"];
+  E_Service -> E_Dto [label="échange", constraint=false];
+  E_Entite -> E_Dto [style=dotted, arrowhead=vee, color="#94A3B8", constraint=false];
+ }
+ subgraph cluster_mission {
+  label="Mission · mission-service";
+  fontcolor="#7C3AED"; color="#7C3AED"; penwidth=1.35; style="rounded"; bgcolor="#F8FAFC"; margin=20;
+  node [color="#7C3AED"];
+  M_Controller [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#7C3AED" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>MissionController</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">controller</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ detail()</FONT></TD></TR>
+     </TABLE>
+   >];
+  M_Service [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#7C3AED" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>MissionService</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">service</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ creer()<BR ALIGN="LEFT"/>+ lister()<BR ALIGN="LEFT"/>+ lire()<BR ALIGN="LEFT"/>+ detail()</FONT></TD></TR>
+     </TABLE>
+   >];
+  M_Repository [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#7C3AED" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>MissionRepository</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">interface JpaRepository</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ findByCleIdempotence()</FONT></TD></TR>
+     </TABLE>
+   >];
+  M_Entite [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#7C3AED" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>Mission</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">entity</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">- id : Long<BR ALIGN="LEFT"/>- employeId : Long<BR ALIGN="LEFT"/>- departementId : Long<BR ALIGN="LEFT"/>- objet : String<BR ALIGN="LEFT"/>- dureeJours : int<BR ALIGN="LEFT"/>- creeLe : Instant<BR ALIGN="LEFT"/>- cleIdempotence : String<BR ALIGN="LEFT"/>- empreinte : String</FONT></TD></TR><TR><TD HEIGHT="1" BGCOLOR="#E2E8F0"></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ vue()</FONT></TD></TR>
+     </TABLE>
+   >];
+  M_Dto [label=<
+     <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" BGCOLOR="#FFFFFF" COLOR="#CBD5E1">
+       <TR><TD BGCOLOR="#7C3AED" ALIGN="CENTER"><FONT COLOR="white" POINT-SIZE="14"><B>MissionDto</B></FONT><BR/><FONT COLOR="#E2E8F0" POINT-SIZE="10">DTO · records</FONT></TD></TR>
+       <TR><TD ALIGN="LEFT"><FONT COLOR="#334155" FACE="DejaVu Sans Mono" POINT-SIZE="10">+ Demande(...)<BR ALIGN="LEFT"/>+ Vue(...)<BR ALIGN="LEFT"/>+ Detail(...)<BR ALIGN="LEFT"/>+ Employe(...) / Departement(...)</FONT></TD></TR>
+     </TABLE>
+   >];
+  M_Controller -> M_Service [label="délègue"];
+  M_Service -> M_Repository [label="utilise"];
+  M_Repository -> M_Entite [label="persiste"];
+  M_Service -> M_Dto [label="échange", constraint=false];
+  M_Entite -> M_Dto [style=dotted, arrowhead=vee, color="#94A3B8", constraint=false];
+ }
+ {rank=same; D_Controller; E_Controller; M_Controller;}
+ {rank=same; D_Service; E_Service; M_Service;}
+ {rank=same; D_Repository; E_Repository; M_Repository;}
+ {rank=same; D_Entite; E_Entite; M_Entite;}
+ {rank=same; D_Dto; E_Dto; M_Dto;}
+ D_Controller -> E_Controller -> M_Controller [style=invis, weight=35];
+ D_Service -> E_Service -> M_Service [style=invis, weight=35];
+ D_Repository -> E_Repository -> M_Repository [style=invis, weight=35];
+ D_Entite -> E_Entite -> M_Entite [style=invis, weight=35];
+ D_Dto -> E_Dto -> M_Dto [style=invis, weight=35];
+ // Interactions logiques interservices : dépendances en POINTILLÉS.
+ M_Service -> E_Service [style=dashed, arrowhead=vee, color="#B45309", penwidth=2.0, constraint=false, label="vérifie employé"];
+ M_Service -> D_Service [style=dashed, arrowhead=vee, color="#B45309", penwidth=2.0, constraint=false, label="vérifie département"];
+ // Références par identifiant, sans objets partagés entre bases.
+ E_Entite -> D_Entite [style=dashed, arrowhead=vee, color="#B45309", penwidth=1.5, constraint=false, label="departementId"];
+ M_Entite -> E_Entite [style=dashed, arrowhead=vee, color="#B45309", penwidth=1.5, constraint=false, label="employeId"];
+ M_Entite -> D_Entite [style=dashed, arrowhead=vee, color="#B45309", penwidth=1.5, constraint=false, label="departementId"];
+}

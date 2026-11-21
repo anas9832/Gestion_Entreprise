@@ -1,0 +1,49 @@
+digraph Architecture {
+ graph [rankdir=TB, bgcolor="white", pad=0.5, nodesep=0.8, ranksep=1.16, splines=polyline, outputorder=edgesfirst, fontname="DejaVu Sans"];
+ node [shape=plain, fontname="DejaVu Sans"];
+ edge [fontname="DejaVu Sans", fontsize=11, color="#64748B", penwidth=1.8, arrowsize=0.9, arrowhead=vee];
+
+ gateway [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" COLOR="#1D4ED8" BGCOLOR="#EFF6FF">
+  <TR><TD BGCOLOR="#1D4ED8"><FONT COLOR="white" POINT-SIZE="18"><B>api-gateway</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#1E3A8A" POINT-SIZE="22"><B>8080</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#334155" POINT-SIZE="11">Point d'entrée des routes métier</FONT></TD></TR>
+  </TABLE>>];
+
+ dept [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" COLOR="#1E40AF" BGCOLOR="#EFF6FF">
+  <TR><TD BGCOLOR="#1E40AF"><FONT COLOR="white" POINT-SIZE="16"><B>departement-service</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#1E40AF" POINT-SIZE="22"><B>8081</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#334155" POINT-SIZE="11">Gestion des départements</FONT></TD></TR>
+  </TABLE>>];
+ empl [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" COLOR="#0F766E" BGCOLOR="#F0FDFA">
+  <TR><TD BGCOLOR="#0F766E"><FONT COLOR="white" POINT-SIZE="16"><B>employe-service</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#0F766E" POINT-SIZE="22"><B>8082</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#334155" POINT-SIZE="11">Gestion des employés</FONT></TD></TR>
+  </TABLE>>];
+ mission [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" COLOR="#7C3AED" BGCOLOR="#FAF5FF">
+  <TR><TD BGCOLOR="#7C3AED"><FONT COLOR="white" POINT-SIZE="16"><B>mission-service</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#7C3AED" POINT-SIZE="22"><B>8083</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#334155" POINT-SIZE="11">Gestion des missions</FONT></TD></TR>
+  </TABLE>>];
+ eureka [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="12" COLOR="#334155" BGCOLOR="#F8FAFC">
+  <TR><TD BGCOLOR="#334155"><FONT COLOR="white" POINT-SIZE="17"><B>discovery-server · Eureka</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#0F172A" POINT-SIZE="22"><B>8761</B></FONT></TD></TR>
+  <TR><TD><FONT COLOR="#334155" POINT-SIZE="11">Registre des applications</FONT></TD></TR>
+  </TABLE>>];
+
+ {rank=min; gateway;}
+ {rank=same; dept; empl; mission;}
+ {rank=max; eureka;}
+ dept -> empl -> mission [style=invis, weight=24];
+ gateway -> dept [label="route"];
+ gateway -> empl [label="route"];
+ gateway -> mission [label="route"];
+ dept -> eureka [style=dashed, color="#94A3B8", fontcolor="#64748B", label="s'enregistre"];
+ empl -> eureka [style=dashed, color="#94A3B8", fontcolor="#64748B", label="s'enregistre"];
+ mission -> eureka [style=dashed, color="#94A3B8", fontcolor="#64748B", label="s'enregistre"];
+ gateway -> eureka [style=dashed, color="#94A3B8", fontcolor="#64748B", label="découvre", constraint=false];
+}

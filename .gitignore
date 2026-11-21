@@ -1,0 +1,11 @@
+# Fichiers generes localement
+**/target/
+**/.idea/
+**/*.iml
+**/data/
+**/*.log
+.DS_Store
+Thumbs.db
+
+# Ancien historique Git livre dans l'archive de reference
+*.bundle
