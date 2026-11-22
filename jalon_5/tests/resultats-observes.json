@@ -1,0 +1,1595 @@
+{
+  "jalon": 5,
+  "java": "OpenJDK 17.0.19",
+  "maven": "3.9.11",
+  "springBoot": "3.5.6",
+  "springCloud": "2025.0.0",
+  "infrastructure": "RabbitMQ 4.0.5 et Mailpit 1.27.4 (processus locaux)",
+  "assertionsPostman": 50,
+  "dateUtc": "2026-11-09T01:40:55+00:00",
+  "scenarios": [
+    {
+      "name": "Services enregistrés dans Eureka",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8761/eureka/apps",
+        "entetes": {
+          "Accept": "application/json"
+        },
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "applications": {
+            "versions__delta": "1",
+            "apps__hashcode": "UP_4_",
+            "application": [
+              {
+                "name": "API-GATEWAY",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:api-gateway:8080",
+                    "hostName": "localhost",
+                    "app": "API-GATEWAY",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8080,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188382240,
+                      "lastRenewalTimestamp": 1794188406215,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188381359
+                    },
+                    "metadata": {
+                      "management.port": "8080"
+                    },
+                    "homePageUrl": "http://localhost:8080/",
+                    "statusPageUrl": "http://localhost:8080/actuator/info",
+                    "healthCheckUrl": "http://localhost:8080/actuator/health",
+                    "vipAddress": "api-gateway",
+                    "secureVipAddress": "api-gateway",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188382240",
+                    "lastDirtyTimestamp": "1794188381175",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "MISSION-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:mission-service:8083",
+                    "hostName": "localhost",
+                    "app": "MISSION-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8083,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188386717,
+                      "lastRenewalTimestamp": 1794188386717,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188386574
+                    },
+                    "metadata": {
+                      "management.port": "8083"
+                    },
+                    "homePageUrl": "http://localhost:8083/",
+                    "statusPageUrl": "http://localhost:8083/actuator/info",
+                    "healthCheckUrl": "http://localhost:8083/actuator/health",
+                    "vipAddress": "mission-service",
+                    "secureVipAddress": "mission-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188386717",
+                    "lastDirtyTimestamp": "1794188386534",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "EMPLOYE-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:employe-service:8082",
+                    "hostName": "localhost",
+                    "app": "EMPLOYE-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8082,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188385532,
+                      "lastRenewalTimestamp": 1794188405431,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188385065
+                    },
+                    "metadata": {
+                      "management.port": "8082"
+                    },
+                    "homePageUrl": "http://localhost:8082/",
+                    "statusPageUrl": "http://localhost:8082/actuator/info",
+                    "healthCheckUrl": "http://localhost:8082/actuator/health",
+                    "vipAddress": "employe-service",
+                    "secureVipAddress": "employe-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188385532",
+                    "lastDirtyTimestamp": "1794188384982",
+                    "actionType": "ADDED"
+                  }
+                ]
+              },
+              {
+                "name": "DEPARTEMENT-SERVICE",
+                "instance": [
+                  {
+                    "instanceId": "47bd71fd9a20:departement-service:8081",
+                    "hostName": "localhost",
+                    "app": "DEPARTEMENT-SERVICE",
+                    "ipAddr": "172.26.55.226",
+                    "status": "UP",
+                    "overriddenStatus": "UNKNOWN",
+                    "port": {
+                      "$": 8081,
+                      "@enabled": "true"
+                    },
+                    "securePort": {
+                      "$": 443,
+                      "@enabled": "false"
+                    },
+                    "countryId": 1,
+                    "dataCenterInfo": {
+                      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+                      "name": "MyOwn"
+                    },
+                    "leaseInfo": {
+                      "renewalIntervalInSecs": 5,
+                      "durationInSecs": 15,
+                      "registrationTimestamp": 1794188385531,
+                      "lastRenewalTimestamp": 1794188405430,
+                      "evictionTimestamp": 0,
+                      "serviceUpTimestamp": 1794188385019
+                    },
+                    "metadata": {
+                      "management.port": "8081"
+                    },
+                    "homePageUrl": "http://localhost:8081/",
+                    "statusPageUrl": "http://localhost:8081/actuator/info",
+                    "healthCheckUrl": "http://localhost:8081/actuator/health",
+                    "vipAddress": "departement-service",
+                    "secureVipAddress": "departement-service",
+                    "isCoordinatingDiscoveryServer": "false",
+                    "lastUpdatedTimestamp": "1794188385531",
+                    "lastDirtyTimestamp": "1794188384914",
+                    "actionType": "ADDED"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "dureeMs": 16
+      }
+    },
+    {
+      "name": "Département initial",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/departement-service/departements/1",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "id": 1,
+          "nom": "Informatique",
+          "actif": true
+        },
+        "dureeMs": 15
+      }
+    },
+    {
+      "name": "Département créé",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/departement-service/departements",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Direction-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "departements/4"
+        },
+        "json": {
+          "id": 4,
+          "nom": "Direction-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "actif": true
+        },
+        "dureeMs": 72
+      }
+    },
+    {
+      "name": "Département absent",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/departement-service/departements/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Departement 999999 introuvable.",
+          "instance": "/departements/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 28
+      }
+    },
+    {
+      "name": "Département invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/departement-service/departements",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "",
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Corrigez les champs indiqués.",
+          "instance": "/departements",
+          "code": "VALIDATION",
+          "errors": {
+            "nom": "must not be blank"
+          }
+        },
+        "dureeMs": 33
+      }
+    },
+    {
+      "name": "Employé créé",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/employe-service/employes",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Karim de la démo",
+          "email": "karim-719c0254-f71b-4ad1-95d0-e659c635c0f7@example.test",
+          "departementId": 1,
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "employes/5"
+        },
+        "json": {
+          "id": 5,
+          "nom": "Karim de la démo",
+          "email": "karim-719c0254-f71b-4ad1-95d0-e659c635c0f7@example.test",
+          "departementId": 1,
+          "actif": true
+        },
+        "dureeMs": 68
+      }
+    },
+    {
+      "name": "Employé absent",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/employe-service/employes/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Employe 999999 introuvable.",
+          "instance": "/employes/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 29
+      }
+    },
+    {
+      "name": "Email invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/employe-service/employes",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "nom": "Karim de la démo",
+          "email": "invalide",
+          "departementId": 1,
+          "actif": true
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Corrigez les champs indiqués.",
+          "instance": "/employes",
+          "code": "VALIDATION",
+          "errors": {
+            "email": "must be a well-formed email address"
+          }
+        },
+        "dureeMs": 29
+      }
+    },
+    {
+      "name": "Configuration agrégée depuis Git",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8888/mission-service/default/main",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "name": "mission-service",
+          "profiles": [
+            "default"
+          ],
+          "label": "main",
+          "version": "d10a5812daaf5939089528e8b38bc40793589329",
+          "state": "",
+          "propertySources": [
+            {
+              "name": "file:///workspace/scratch/1b345f85c4bd/projet/jalon_5/config-repo//mission-service.properties",
+              "source": {
+                "server.port": "8083",
+                "spring.datasource.url": "jdbc:h2:file:${ENTREPRISE_DATA_DIR:./data}/mission-service",
+                "spring.datasource.username": "sa",
+                "spring.datasource.password": "",
+                "eureka.client.service-url.defaultZone": "${EUREKA_URL:http://localhost:8761/eureka/}",
+                "eureka.client.registry-fetch-interval-seconds": "5",
+                "eureka.client.initial-instance-info-replication-interval-seconds": "3",
+                "eureka.client.instance-info-replication-interval-seconds": "5",
+                "eureka.instance.hostname": "${SERVICE_HOST:localhost}",
+                "eureka.instance.lease-renewal-interval-in-seconds": "5",
+                "eureka.instance.lease-expiration-duration-in-seconds": "15",
+                "spring.cloud.openfeign.client.config.default.connect-timeout": "1000",
+                "spring.cloud.openfeign.client.config.default.read-timeout": "2000",
+                "spring.cloud.loadbalancer.retry.enabled": "false",
+                "spring.cloud.loadbalancer.cache.enabled": "false",
+                "spring.rabbitmq.host": "${RABBITMQ_HOST:localhost}",
+                "spring.rabbitmq.port": "${RABBITMQ_PORT:5672}",
+                "spring.rabbitmq.username": "${RABBITMQ_USER:entreprise}",
+                "spring.rabbitmq.password": "${RABBITMQ_PASSWORD:entreprise-dev}",
+                "spring.rabbitmq.connection-timeout": "2s",
+                "spring.rabbitmq.publisher-confirm-type": "correlated",
+                "spring.rabbitmq.publisher-returns": "true",
+                "spring.rabbitmq.template.mandatory": "true",
+                "entreprise.outbox.delai-ms": "1000"
+              }
+            },
+            {
+              "name": "file:///workspace/scratch/1b345f85c4bd/projet/jalon_5/config-repo//application.properties",
+              "source": {
+                "spring.jpa.hibernate.ddl-auto": "update",
+                "spring.jpa.open-in-view": "false",
+                "management.endpoints.web.exposure.include": "health,info",
+                "info.projet": "Gestion d'entreprise"
+              }
+            }
+          ]
+        },
+        "dureeMs": 25
+      }
+    },
+    {
+      "name": "Mission créée",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/1",
+          "Idempotency-Replayed": "false"
+        },
+        "json": {
+          "id": 1,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:39:52.160865Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 111
+      }
+    },
+    {
+      "name": "Mission locale",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions/1",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "id": 1,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:39:52.160865Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 15
+      }
+    },
+    {
+      "name": "Mission absente",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions/999999",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Mission 999999 introuvable.",
+          "instance": "/missions/999999",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 16
+      }
+    },
+    {
+      "name": "Durée invalide",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Trop longue",
+          "dureeJours": 0
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Un paramètre ou un en-tête est invalide.",
+          "instance": "/missions",
+          "code": "VALIDATION"
+        },
+        "dureeMs": 35
+      }
+    },
+    {
+      "name": "Mission enrichie",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions/1/detail",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "mission": {
+            "id": 1,
+            "employeId": 1,
+            "departementId": 1,
+            "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+            "dureeJours": 3,
+            "creeLe": "2026-11-09T01:39:52.160865Z",
+            "statut": "VALIDEE"
+          },
+          "employe": {
+            "id": 1,
+            "nom": "Sara Amrani",
+            "email": "sara@example.test",
+            "departementId": 1,
+            "actif": true
+          },
+          "departement": {
+            "id": 1,
+            "nom": "Informatique",
+            "actif": true
+          },
+          "mode": "ENRICHI"
+        },
+        "dureeMs": 37
+      }
+    },
+    {
+      "name": "Rejeu de la mission",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/1",
+          "Idempotency-Replayed": "true"
+        },
+        "json": {
+          "id": 1,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:39:52.160865Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 12
+      }
+    },
+    {
+      "name": "Conflit de clé",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Autre mission",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 409,
+        "raison": "Conflict",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Conflict",
+          "status": 409,
+          "detail": "Cette clé correspond à une autre demande.",
+          "instance": "/missions",
+          "code": "CLE_DEJA_UTILISEE"
+        },
+        "dureeMs": 13
+      }
+    },
+    {
+      "name": "Employé référencé absent",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "abs-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 999999,
+          "departementId": 1,
+          "objet": "Absent",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Référence 999999 introuvable dans employe-service.",
+          "instance": "/missions",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 27
+      }
+    },
+    {
+      "name": "Département référencé absent",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "dep-abs-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 999999,
+          "objet": "Absent",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 404,
+        "raison": "Not Found",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Not Found",
+          "status": 404,
+          "detail": "Référence 999999 introuvable dans departement-service.",
+          "instance": "/missions",
+          "code": "RESSOURCE_INTROUVABLE"
+        },
+        "dureeMs": 23
+      }
+    },
+    {
+      "name": "Employé inactif",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "ina-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 2,
+          "departementId": 1,
+          "objet": "Inactif",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "L’employé doit être actif.",
+          "instance": "/missions",
+          "code": "EMPLOYE_INACTIF"
+        },
+        "dureeMs": 29
+      }
+    },
+    {
+      "name": "Département inactif",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "ina-dep-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 3,
+          "departementId": 2,
+          "objet": "Inactif",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "Le département doit être actif.",
+          "instance": "/missions",
+          "code": "DEPARTEMENT_INACTIF"
+        },
+        "dureeMs": 29
+      }
+    },
+    {
+      "name": "Affectation incompatible",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "aff-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 3,
+          "objet": "Mauvais service",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "L’employé doit appartenir au département.",
+          "instance": "/missions",
+          "code": "AFFECTATION_INCOMPATIBLE"
+        },
+        "dureeMs": 28
+      }
+    },
+    {
+      "name": "Clé de mission absente",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 400,
+        "raison": "Bad Request",
+        "entetes": {
+          "Content-Type": "application/problem+json"
+        },
+        "json": {
+          "type": "about:blank",
+          "title": "Bad Request",
+          "status": 400,
+          "detail": "En-tête obligatoire : Idempotency-Key",
+          "instance": "/missions",
+          "code": "EN_TETE_MANQUANT"
+        },
+        "dureeMs": 9
+      }
+    },
+    {
+      "name": "Une seule mission après rejeu",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": [
+          {
+            "id": 1,
+            "employeId": 1,
+            "departementId": 1,
+            "objet": "Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+            "dureeJours": 3,
+            "creeLe": "2026-11-09T01:39:52.160865Z",
+            "statut": "VALIDEE"
+          },
+          {
+            "id": 2,
+            "employeId": 1,
+            "departementId": 1,
+            "objet": "Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587",
+            "dureeJours": 3,
+            "creeLe": "2026-11-09T01:39:53.640847Z",
+            "statut": "VALIDEE"
+          }
+        ],
+        "dureeMs": 14
+      }
+    },
+    {
+      "name": "Boîte Mailpit après envoi",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8025/api/v1/messages",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "total": 2,
+          "unread": 2,
+          "count": 2,
+          "messages_count": 2,
+          "messages_unread": 2,
+          "start": 0,
+          "tags": [],
+          "messages": [
+            {
+              "ID": "U2Gas5FzBasDvGLvnwUtmg",
+              "MessageID": "594272807.1.1794188393850@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°2 validée",
+              "Created": "2026-11-09T02:39:53.853+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 721,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "DuERq3RDyhhghAS6Ej5az6",
+              "MessageID": "1880656464.0.1794188393344@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°1 validée",
+              "Created": "2026-11-09T02:39:53.348+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 722,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            }
+          ]
+        },
+        "dureeMs": 1
+      }
+    },
+    {
+      "name": "Créer avec le consommateur arrêté",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "differe-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/3",
+          "Idempotency-Replayed": "false"
+        },
+        "json": {
+          "id": 3,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "dureeJours": 3,
+          "creeLe": "2026-11-09T01:39:55.954789Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 33
+      }
+    },
+    {
+      "name": "RabbitMQ conserve le message pendant l’arrêt du consommateur",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:15672/api/queues/%2F/entreprise.notifications.mission",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "consumer_details": [],
+          "arguments": {
+            "x-dead-letter-exchange": "entreprise.missions.dlx",
+            "x-dead-letter-routing-key": "mission.validee",
+            "x-queue-type": "classic"
+          },
+          "auto_delete": false,
+          "consumer_capacity": 0,
+          "consumer_utilisation": 0,
+          "consumers": 0,
+          "deliveries": [],
+          "durable": true,
+          "effective_policy_definition": {},
+          "exclusive": false,
+          "exclusive_consumer_tag": null,
+          "garbage_collection": {
+            "fullsweep_after": 65535,
+            "max_heap_size": 0,
+            "min_bin_vheap_size": 46422,
+            "min_heap_size": 233,
+            "minor_gcs": 3
+          },
+          "head_message_timestamp": null,
+          "idle_since": "2026-11-09T02:40:00.161+01:00",
+          "incoming": [],
+          "memory": 6184,
+          "message_bytes": 281,
+          "message_bytes_paged_out": 0,
+          "message_bytes_persistent": 281,
+          "message_bytes_ram": 281,
+          "message_bytes_ready": 281,
+          "message_bytes_unacknowledged": 0,
+          "message_stats": {
+            "ack": 2,
+            "ack_details": {
+              "rate": 0.0
+            },
+            "deliver": 2,
+            "deliver_details": {
+              "rate": 0.0
+            },
+            "deliver_get": 2,
+            "deliver_get_details": {
+              "rate": 0.0
+            },
+            "deliver_no_ack": 0,
+            "deliver_no_ack_details": {
+              "rate": 0.0
+            },
+            "get": 0,
+            "get_details": {
+              "rate": 0.0
+            },
+            "get_empty": 0,
+            "get_empty_details": {
+              "rate": 0.0
+            },
+            "get_no_ack": 0,
+            "get_no_ack_details": {
+              "rate": 0.0
+            },
+            "publish": 3,
+            "publish_details": {
+              "rate": 0.2
+            },
+            "redeliver": 0,
+            "redeliver_details": {
+              "rate": 0.0
+            }
+          },
+          "messages": 1,
+          "messages_details": {
+            "rate": 0.2
+          },
+          "messages_paged_out": 0,
+          "messages_persistent": 1,
+          "messages_ram": 1,
+          "messages_ready": 1,
+          "messages_ready_details": {
+            "rate": 0.2
+          },
+          "messages_ready_ram": 1,
+          "messages_unacknowledged": 0,
+          "messages_unacknowledged_details": {
+            "rate": 0.0
+          },
+          "messages_unacknowledged_ram": 0,
+          "name": "entreprise.notifications.mission",
+          "node": "rabbit@localhost",
+          "operator_policy": null,
+          "policy": null,
+          "reductions": 17712,
+          "reductions_details": {
+            "rate": 1132.2
+          },
+          "single_active_consumer_tag": null,
+          "state": "running",
+          "storage_version": 2,
+          "type": "classic",
+          "vhost": "/"
+        },
+        "dureeMs": 2
+      }
+    },
+    {
+      "name": "Courriel différé reçu après redémarrage",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8025/api/v1/messages",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "total": 3,
+          "unread": 3,
+          "count": 3,
+          "messages_count": 3,
+          "messages_unread": 3,
+          "start": 0,
+          "tags": [],
+          "messages": [
+            {
+              "ID": "Wc6ezELPqjGbynirzXVm94",
+              "MessageID": "1137487544.0.1794188407880@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°3 validée",
+              "Created": "2026-11-09T02:40:07.884+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 733,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "U2Gas5FzBasDvGLvnwUtmg",
+              "MessageID": "594272807.1.1794188393850@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°2 validée",
+              "Created": "2026-11-09T02:39:53.853+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 721,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "DuERq3RDyhhghAS6Ej5az6",
+              "MessageID": "1880656464.0.1794188393344@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°1 validée",
+              "Created": "2026-11-09T02:39:53.348+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 722,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            }
+          ]
+        },
+        "dureeMs": 2
+      }
+    },
+    {
+      "name": "Mission créée malgré la panne SMTP",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "smtp-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Mission créée malgré la panne SMTP",
+          "dureeJours": 4
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/4",
+          "Idempotency-Replayed": "false"
+        },
+        "json": {
+          "id": 4,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Mission créée malgré la panne SMTP",
+          "dureeJours": 4,
+          "creeLe": "2026-11-09T01:40:15.605105Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 43
+      }
+    },
+    {
+      "name": "Échec SMTP traité et message envoyé en DLQ",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:15672/api/queues/%2F/entreprise.notifications.mission.dlq",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "consumer_details": [],
+          "arguments": {
+            "x-queue-type": "classic"
+          },
+          "auto_delete": false,
+          "consumer_capacity": 0,
+          "consumer_utilisation": 0,
+          "consumers": 0,
+          "deliveries": [],
+          "durable": true,
+          "effective_policy_definition": {},
+          "exclusive": false,
+          "exclusive_consumer_tag": null,
+          "garbage_collection": {
+            "fullsweep_after": 65535,
+            "max_heap_size": 0,
+            "min_bin_vheap_size": 46422,
+            "min_heap_size": 233,
+            "minor_gcs": 16
+          },
+          "head_message_timestamp": null,
+          "idle_since": "2026-11-09T02:40:22.983+01:00",
+          "incoming": [],
+          "memory": 6320,
+          "message_bytes": 261,
+          "message_bytes_paged_out": 0,
+          "message_bytes_persistent": 261,
+          "message_bytes_ram": 261,
+          "message_bytes_ready": 261,
+          "message_bytes_unacknowledged": 0,
+          "messages": 1,
+          "messages_details": {
+            "rate": 0.2
+          },
+          "messages_paged_out": 0,
+          "messages_persistent": 1,
+          "messages_ram": 1,
+          "messages_ready": 1,
+          "messages_ready_details": {
+            "rate": 0.2
+          },
+          "messages_ready_ram": 1,
+          "messages_unacknowledged": 0,
+          "messages_unacknowledged_details": {
+            "rate": 0.0
+          },
+          "messages_unacknowledged_ram": 0,
+          "name": "entreprise.notifications.mission.dlq",
+          "node": "rabbit@localhost",
+          "operator_policy": null,
+          "policy": null,
+          "reductions": 13829,
+          "reductions_details": {
+            "rate": 354.0
+          },
+          "single_active_consumer_tag": null,
+          "state": "running",
+          "storage_version": 2,
+          "type": "classic",
+          "vhost": "/"
+        },
+        "dureeMs": 2
+      }
+    },
+    {
+      "name": "Mission créée pendant l’indisponibilité RabbitMQ",
+      "requete": {
+        "methode": "POST",
+        "url": "http://localhost:8080/mission-service/missions",
+        "entetes": {
+          "Idempotency-Key": "broker-719c0254-f71b-4ad1-95d0-e659c635c0f7",
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Mission créée pendant l’indisponibilité RabbitMQ",
+          "dureeJours": 4
+        }
+      },
+      "reponse": {
+        "statut": 201,
+        "raison": "Created",
+        "entetes": {
+          "Content-Type": "application/json",
+          "Location": "missions/5",
+          "Idempotency-Replayed": "false"
+        },
+        "json": {
+          "id": 5,
+          "employeId": 1,
+          "departementId": 1,
+          "objet": "Mission créée pendant l’indisponibilité RabbitMQ",
+          "dureeJours": 4,
+          "creeLe": "2026-11-09T01:40:33.714939Z",
+          "statut": "VALIDEE"
+        },
+        "dureeMs": 39
+      }
+    },
+    {
+      "name": "Courriel envoyé après reprise du broker",
+      "requete": {
+        "methode": "GET",
+        "url": "http://localhost:8025/api/v1/messages",
+        "entetes": {},
+        "json": null
+      },
+      "reponse": {
+        "statut": 200,
+        "raison": "OK",
+        "entetes": {
+          "Content-Type": "application/json"
+        },
+        "json": {
+          "total": 5,
+          "unread": 5,
+          "count": 5,
+          "messages_count": 5,
+          "messages_unread": 5,
+          "start": 0,
+          "tags": [],
+          "messages": [
+            {
+              "ID": "CbhEtcbS5S5dqLhsGA3M22",
+              "MessageID": "834931854.0.1794188439065@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°5 validée",
+              "Created": "2026-11-09T02:40:39.07+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 738,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Mission créée pendant l’indisponibilité RabbitMQ » a été validée. Département : Informatique Durée : 4 jour(s)."
+            },
+            {
+              "ID": "kdEjNmSdbzUqVJEjbbyFZH",
+              "MessageID": "1333194024.1.1794188408968@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°3 validée",
+              "Created": "2026-11-09T02:40:08.97+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 733,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "Wc6ezELPqjGbynirzXVm94",
+              "MessageID": "1137487544.0.1794188407880@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°3 validée",
+              "Created": "2026-11-09T02:40:07.884+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 733,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "U2Gas5FzBasDvGLvnwUtmg",
+              "MessageID": "594272807.1.1794188393850@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°2 validée",
+              "Created": "2026-11-09T02:39:53.853+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 721,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            },
+            {
+              "ID": "DuERq3RDyhhghAS6Ej5az6",
+              "MessageID": "1880656464.0.1794188393344@47bd71fd9a20",
+              "Read": false,
+              "From": {
+                "Name": "",
+                "Address": "missions@entreprise.test"
+              },
+              "To": [
+                {
+                  "Name": "",
+                  "Address": "sara@example.test"
+                }
+              ],
+              "Cc": null,
+              "Bcc": null,
+              "ReplyTo": [],
+              "Subject": "Mission n°1 validée",
+              "Created": "2026-11-09T02:39:53.348+01:00",
+              "Username": "",
+              "Tags": [],
+              "Size": 722,
+              "Attachments": 0,
+              "Snippet": "Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s)."
+            }
+          ]
+        },
+        "dureeMs": 2
+      }
+    }
+  ],
+  "scenarioCount": 31,
+  "validationCompose": "Configuration YAML validée avec Docker Compose 2.26.1"
+}

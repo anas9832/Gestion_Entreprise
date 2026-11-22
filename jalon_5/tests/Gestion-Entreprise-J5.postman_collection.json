@@ -1,0 +1,2008 @@
+{
+  "info": {
+    "name": "Gestion d’entreprise — Jalon 5",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Exécuter le dossier 01 sur les applications démarrées. Les dossiers suivants sont des scénarios manuels."
+  },
+  "variable": [
+    {
+      "key": "departement",
+      "value": "http://localhost:8080/departement-service"
+    },
+    {
+      "key": "employe",
+      "value": "http://localhost:8080/employe-service"
+    },
+    {
+      "key": "mission",
+      "value": "http://localhost:8080/mission-service"
+    },
+    {
+      "key": "config",
+      "value": "http://localhost:8888"
+    },
+    {
+      "key": "mailpit",
+      "value": "http://localhost:8025"
+    },
+    {
+      "key": "rabbit",
+      "value": "http://localhost:15672"
+    },
+    {
+      "key": "execution",
+      "value": ""
+    },
+    {
+      "key": "missionId",
+      "value": ""
+    },
+    {
+      "key": "departementId",
+      "value": ""
+    },
+    {
+      "key": "employeId",
+      "value": ""
+    },
+    {
+      "key": "missionDiffereeId",
+      "value": ""
+    },
+    {
+      "key": "missionPanneBrokerId",
+      "value": ""
+    },
+    {
+      "key": "rabbitUtilisateur",
+      "value": "entreprise"
+    },
+    {
+      "key": "rabbitMotDePasse",
+      "value": "entreprise-dev"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Parcours normal et erreurs",
+      "item": [
+        {
+          "name": "Département initial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{departement}}/departements/1"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"execution\", pm.variables.replaceIn(\"{{$guid}}\"));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"id\", () => pm.expect(body[\"id\"]).to.eql(1));",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/departement-service/departements/1"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 1,\n  \"nom\": \"Informatique\",\n  \"actif\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Département créé",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{departement}}/departements",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Direction-{{execution}}\",\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"departementId\", String(body.id));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8080/departement-service/departements",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nom\": \"Direction-719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"actif\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "departements/4"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 4,\n  \"nom\": \"Direction-719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"actif\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Département absent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{departement}}/departements/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/departement-service/departements/999999"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"Departement 999999 introuvable.\",\n  \"instance\": \"/departements/999999\",\n  \"code\": \"RESSOURCE_INTROUVABLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Département invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{departement}}/departements",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"\",\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8080/departement-service/departements",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nom\": \"\",\n  \"actif\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"Corrigez les champs indiqués.\",\n  \"instance\": \"/departements\",\n  \"code\": \"VALIDATION\",\n  \"errors\": {\n    \"nom\": \"must not be blank\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Employé créé",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{employe}}/employes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"karim-{{execution}}@example.test\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"actif\", () => pm.expect(body[\"actif\"]).to.eql(true));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"employeId\", String(body.id));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8080/employe-service/employes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"karim-719c0254-f71b-4ad1-95d0-e659c635c0f7@example.test\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "employes/5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5,\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"karim-719c0254-f71b-4ad1-95d0-e659c635c0f7@example.test\",\n  \"departementId\": 1,\n  \"actif\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Employé absent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{employe}}/employes/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/employe-service/employes/999999"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"Employe 999999 introuvable.\",\n  \"instance\": \"/employes/999999\",\n  \"code\": \"RESSOURCE_INTROUVABLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Email invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{employe}}/employes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"invalide\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8080/employe-service/employes",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nom\": \"Karim de la démo\",\n  \"email\": \"invalide\",\n  \"departementId\": 1,\n  \"actif\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"Corrigez les champs indiqués.\",\n  \"instance\": \"/employes\",\n  \"code\": \"VALIDATION\",\n  \"errors\": {\n    \"email\": \"must be a well-formed email address\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Configuration agrégée depuis Git",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{config}}/mission-service/default/main"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"name\", () => pm.expect(body[\"name\"]).to.eql(\"mission-service\"));",
+                  "pm.test(\"label\", () => pm.expect(body[\"label\"]).to.eql(\"main\"));",
+                  "pm.test(\"propertySources.0.source.server.port\", () => pm.expect(body[\"propertySources\"][\"0\"][\"source\"][\"server.port\"]).to.eql(\"8083\"));",
+                  "pm.test(\"propertySources.1.source.info.projet\", () => pm.expect(body[\"propertySources\"][\"1\"][\"source\"][\"info.projet\"]).to.eql(\"Gestion d'entreprise\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8888/mission-service/default/main"
+              },
+              "status": "",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"name\": \"mission-service\",\n  \"profiles\": [\n    \"default\"\n  ],\n  \"label\": \"main\",\n  \"version\": \"d10a5812daaf5939089528e8b38bc40793589329\",\n  \"state\": \"\",\n  \"propertySources\": [\n    {\n      \"name\": \"file:///workspace/scratch/1b345f85c4bd/projet/jalon_5/config-repo//mission-service.properties\",\n      \"source\": {\n        \"server.port\": \"8083\",\n        \"spring.datasource.url\": \"jdbc:h2:file:${ENTREPRISE_DATA_DIR:./data}/mission-service\",\n        \"spring.datasource.username\": \"sa\",\n        \"spring.datasource.password\": \"\",\n        \"eureka.client.service-url.defaultZone\": \"${EUREKA_URL:http://localhost:8761/eureka/}\",\n        \"eureka.client.registry-fetch-interval-seconds\": \"5\",\n        \"eureka.client.initial-instance-info-replication-interval-seconds\": \"3\",\n        \"eureka.client.instance-info-replication-interval-seconds\": \"5\",\n        \"eureka.instance.hostname\": \"${SERVICE_HOST:localhost}\",\n        \"eureka.instance.lease-renewal-interval-in-seconds\": \"5\",\n        \"eureka.instance.lease-expiration-duration-in-seconds\": \"15\",\n        \"spring.cloud.openfeign.client.config.default.connect-timeout\": \"1000\",\n        \"spring.cloud.openfeign.client.config.default.read-timeout\": \"2000\",\n        \"spring.cloud.loadbalancer.retry.enabled\": \"false\",\n        \"spring.cloud.loadbalancer.cache.enabled\": \"false\",\n        \"spring.rabbitmq.host\": \"${RABBITMQ_HOST:localhost}\",\n        \"spring.rabbitmq.port\": \"${RABBITMQ_PORT:5672}\",\n        \"spring.rabbitmq.username\": \"${RABBITMQ_USER:entreprise}\",\n        \"spring.rabbitmq.password\": \"${RABBITMQ_PASSWORD:entreprise-dev}\",\n        \"spring.rabbitmq.connection-timeout\": \"2s\",\n        \"spring.rabbitmq.publisher-confirm-type\": \"correlated\",\n        \"spring.rabbitmq.publisher-returns\": \"true\",\n        \"spring.rabbitmq.template.mandatory\": \"true\",\n        \"entreprise.outbox.delai-ms\": \"1000\"\n      }\n    },\n    {\n      \"name\": \"file:///workspace/scratch/1b345f85c4bd/projet/jalon_5/config-repo//application.properties\",\n      \"source\": {\n        \"spring.jpa.hibernate.ddl-auto\": \"update\",\n        \"spring.jpa.open-in-view\": \"false\",\n        \"management.endpoints.web.exposure.include\": \"health,info\",\n        \"info.projet\": \"Gestion d'entreprise\"\n      }\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission créée",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "mission-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau {{execution}}\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"statut\", () => pm.expect(body[\"statut\"]).to.eql(\"VALIDEE\"));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"missionId\", String(body.id));",
+                  "pm.test(\"Indicateur de rejeu\", () => pm.expect(pm.response.headers.get(\"Idempotency-Replayed\")).to.eql(\"false\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "missions/1"
+                },
+                {
+                  "key": "Idempotency-Replayed",
+                  "value": "false"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 1,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3,\n  \"creeLe\": \"2026-11-09T01:39:52.160865Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission locale",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mission}}/missions/{{missionId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"id\", () => pm.expect(body[\"id\"]).to.eql(Number(pm.collectionVariables.get(\"missionId\"))));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/mission-service/missions/1"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 1,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3,\n  \"creeLe\": \"2026-11-09T01:39:52.160865Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission absente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mission}}/missions/999999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/mission-service/missions/999999"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"Mission 999999 introuvable.\",\n  \"instance\": \"/missions/999999\",\n  \"code\": \"RESSOURCE_INTROUVABLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Durée invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "mission-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Trop longue\",\n  \"dureeJours\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"VALIDATION\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Trop longue\",\n  \"dureeJours\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"Un paramètre ou un en-tête est invalide.\",\n  \"instance\": \"/missions\",\n  \"code\": \"VALIDATION\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission enrichie",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mission}}/missions/{{missionId}}/detail"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"mode\", () => pm.expect(body[\"mode\"]).to.eql(\"ENRICHI\"));",
+                  "pm.test(\"employe.id\", () => pm.expect(body[\"employe\"][\"id\"]).to.eql(1));",
+                  "pm.test(\"departement.id\", () => pm.expect(body[\"departement\"][\"id\"]).to.eql(1));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8080/mission-service/missions/1/detail"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"mission\": {\n    \"id\": 1,\n    \"employeId\": 1,\n    \"departementId\": 1,\n    \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n    \"dureeJours\": 3,\n    \"creeLe\": \"2026-11-09T01:39:52.160865Z\",\n    \"statut\": \"VALIDEE\"\n  },\n  \"employe\": {\n    \"id\": 1,\n    \"nom\": \"Sara Amrani\",\n    \"email\": \"sara@example.test\",\n    \"departementId\": 1,\n    \"actif\": true\n  },\n  \"departement\": {\n    \"id\": 1,\n    \"nom\": \"Informatique\",\n    \"actif\": true\n  },\n  \"mode\": \"ENRICHI\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Rejeu de la mission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "mission-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau {{execution}}\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"id\", () => pm.expect(body[\"id\"]).to.eql(Number(pm.collectionVariables.get(\"missionId\"))));",
+                  "pm.test(\"Indicateur de rejeu\", () => pm.expect(pm.response.headers.get(\"Idempotency-Replayed\")).to.eql(\"true\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "missions/1"
+                },
+                {
+                  "key": "Idempotency-Replayed",
+                  "value": "true"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 1,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3,\n  \"creeLe\": \"2026-11-09T01:39:52.160865Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Conflit de clé",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "mission-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Autre mission\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"CLE_DEJA_UTILISEE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "mission-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Autre mission\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Conflict\",\n  \"status\": 409,\n  \"detail\": \"Cette clé correspond à une autre demande.\",\n  \"instance\": \"/missions\",\n  \"code\": \"CLE_DEJA_UTILISEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Employé référencé absent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "abs-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 999999,\n  \"departementId\": 1,\n  \"objet\": \"Absent\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "abs-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 999999,\n  \"departementId\": 1,\n  \"objet\": \"Absent\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"Référence 999999 introuvable dans employe-service.\",\n  \"instance\": \"/missions\",\n  \"code\": \"RESSOURCE_INTROUVABLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Département référencé absent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "dep-abs-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 999999,\n  \"objet\": \"Absent\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"RESSOURCE_INTROUVABLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "dep-abs-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 999999,\n  \"objet\": \"Absent\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Not Found\",\n  \"status\": 404,\n  \"detail\": \"Référence 999999 introuvable dans departement-service.\",\n  \"instance\": \"/missions\",\n  \"code\": \"RESSOURCE_INTROUVABLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Employé inactif",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "ina-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 2,\n  \"departementId\": 1,\n  \"objet\": \"Inactif\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"EMPLOYE_INACTIF\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "ina-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 2,\n  \"departementId\": 1,\n  \"objet\": \"Inactif\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"L’employé doit être actif.\",\n  \"instance\": \"/missions\",\n  \"code\": \"EMPLOYE_INACTIF\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Département inactif",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "ina-dep-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 3,\n  \"departementId\": 2,\n  \"objet\": \"Inactif\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"DEPARTEMENT_INACTIF\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "ina-dep-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 3,\n  \"departementId\": 2,\n  \"objet\": \"Inactif\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"Le département doit être actif.\",\n  \"instance\": \"/missions\",\n  \"code\": \"DEPARTEMENT_INACTIF\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Affectation incompatible",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "aff-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 3,\n  \"objet\": \"Mauvais service\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"AFFECTATION_INCOMPATIBLE\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "aff-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 3,\n  \"objet\": \"Mauvais service\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"L’employé doit appartenir au département.\",\n  \"instance\": \"/missions\",\n  \"code\": \"AFFECTATION_INCOMPATIBLE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Clé de mission absente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau {{execution}}\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"code\", () => pm.expect(body[\"code\"]).to.eql(\"EN_TETE_MANQUANT\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"Bad Request\",\n  \"status\": 400,\n  \"detail\": \"En-tête obligatoire : Idempotency-Key\",\n  \"instance\": \"/missions\",\n  \"code\": \"EN_TETE_MANQUANT\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 — Notifications, RabbitMQ et Mailpit",
+      "item": [
+        {
+          "name": "Boîte Mailpit après envoi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mailpit}}/api/v1/messages"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const id = pm.collectionVariables.get(\"missionId\");",
+                  "const courriel = body.messages.find(m => m.Subject === `Mission n°${id} validée` && m.To.some(t => t.Address === \"sara@example.test\"));",
+                  "pm.test(\"Courriel de mission reçu par Sara\", () => pm.expect(courriel).to.exist);"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8025/api/v1/messages"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"total\": 2,\n  \"unread\": 2,\n  \"count\": 2,\n  \"messages_count\": 2,\n  \"messages_unread\": 2,\n  \"start\": 0,\n  \"tags\": [],\n  \"messages\": [\n    {\n      \"ID\": \"U2Gas5FzBasDvGLvnwUtmg\",\n      \"MessageID\": \"594272807.1.1794188393850@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°2 validée\",\n      \"Created\": \"2026-11-09T02:39:53.853+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 721,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"DuERq3RDyhhghAS6Ej5az6\",\n      \"MessageID\": \"1880656464.0.1794188393344@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°1 validée\",\n      \"Created\": \"2026-11-09T02:39:53.348+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 722,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Créer avec le consommateur arrêté",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "differe-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Livraison différée {{execution}}\",\n  \"dureeJours\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"statut\", () => pm.expect(body[\"statut\"]).to.eql(\"VALIDEE\"));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"missionDiffereeId\", String(body.id));",
+                  "pm.test(\"Indicateur de rejeu\", () => pm.expect(pm.response.headers.get(\"Idempotency-Replayed\")).to.eql(\"false\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "differe-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "missions/3"
+                },
+                {
+                  "key": "Idempotency-Replayed",
+                  "value": "false"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 3,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7\",\n  \"dureeJours\": 3,\n  \"creeLe\": \"2026-11-09T01:39:55.954789Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "RabbitMQ conserve le message pendant l’arrêt du consommateur",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{rabbit}}/api/queues/%2F/entreprise.notifications.mission",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{rabbitUtilisateur}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{rabbitMotDePasse}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"name\", () => pm.expect(body[\"name\"]).to.eql(\"entreprise.notifications.mission\"));",
+                  "pm.test(\"Au moins un message en attente\", () => pm.expect(body.messages_ready).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:15672/api/queues/%2F/entreprise.notifications.mission",
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{rabbitUtilisateur}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{rabbitMotDePasse}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"consumer_details\": [],\n  \"arguments\": {\n    \"x-dead-letter-exchange\": \"entreprise.missions.dlx\",\n    \"x-dead-letter-routing-key\": \"mission.validee\",\n    \"x-queue-type\": \"classic\"\n  },\n  \"auto_delete\": false,\n  \"consumer_capacity\": 0,\n  \"consumer_utilisation\": 0,\n  \"consumers\": 0,\n  \"deliveries\": [],\n  \"durable\": true,\n  \"effective_policy_definition\": {},\n  \"exclusive\": false,\n  \"exclusive_consumer_tag\": null,\n  \"garbage_collection\": {\n    \"fullsweep_after\": 65535,\n    \"max_heap_size\": 0,\n    \"min_bin_vheap_size\": 46422,\n    \"min_heap_size\": 233,\n    \"minor_gcs\": 3\n  },\n  \"head_message_timestamp\": null,\n  \"idle_since\": \"2026-11-09T02:40:00.161+01:00\",\n  \"incoming\": [],\n  \"memory\": 6184,\n  \"message_bytes\": 281,\n  \"message_bytes_paged_out\": 0,\n  \"message_bytes_persistent\": 281,\n  \"message_bytes_ram\": 281,\n  \"message_bytes_ready\": 281,\n  \"message_bytes_unacknowledged\": 0,\n  \"message_stats\": {\n    \"ack\": 2,\n    \"ack_details\": {\n      \"rate\": 0.0\n    },\n    \"deliver\": 2,\n    \"deliver_details\": {\n      \"rate\": 0.0\n    },\n    \"deliver_get\": 2,\n    \"deliver_get_details\": {\n      \"rate\": 0.0\n    },\n    \"deliver_no_ack\": 0,\n    \"deliver_no_ack_details\": {\n      \"rate\": 0.0\n    },\n    \"get\": 0,\n    \"get_details\": {\n      \"rate\": 0.0\n    },\n    \"get_empty\": 0,\n    \"get_empty_details\": {\n      \"rate\": 0.0\n    },\n    \"get_no_ack\": 0,\n    \"get_no_ack_details\": {\n      \"rate\": 0.0\n    },\n    \"publish\": 3,\n    \"publish_details\": {\n      \"rate\": 0.2\n    },\n    \"redeliver\": 0,\n    \"redeliver_details\": {\n      \"rate\": 0.0\n    }\n  },\n  \"messages\": 1,\n  \"messages_details\": {\n    \"rate\": 0.2\n  },\n  \"messages_paged_out\": 0,\n  \"messages_persistent\": 1,\n  \"messages_ram\": 1,\n  \"messages_ready\": 1,\n  \"messages_ready_details\": {\n    \"rate\": 0.2\n  },\n  \"messages_ready_ram\": 1,\n  \"messages_unacknowledged\": 0,\n  \"messages_unacknowledged_details\": {\n    \"rate\": 0.0\n  },\n  \"messages_unacknowledged_ram\": 0,\n  \"name\": \"entreprise.notifications.mission\",\n  \"node\": \"rabbit@localhost\",\n  \"operator_policy\": null,\n  \"policy\": null,\n  \"reductions\": 17712,\n  \"reductions_details\": {\n    \"rate\": 1132.2\n  },\n  \"single_active_consumer_tag\": null,\n  \"state\": \"running\",\n  \"storage_version\": 2,\n  \"type\": \"classic\",\n  \"vhost\": \"/\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Courriel différé reçu après redémarrage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mailpit}}/api/v1/messages"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const id = pm.collectionVariables.get(\"missionDiffereeId\");",
+                  "const courriel = body.messages.find(m => m.Subject === `Mission n°${id} validée` && m.To.some(t => t.Address === \"sara@example.test\"));",
+                  "pm.test(\"Courriel de mission reçu par Sara\", () => pm.expect(courriel).to.exist);"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8025/api/v1/messages"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"total\": 3,\n  \"unread\": 3,\n  \"count\": 3,\n  \"messages_count\": 3,\n  \"messages_unread\": 3,\n  \"start\": 0,\n  \"tags\": [],\n  \"messages\": [\n    {\n      \"ID\": \"Wc6ezELPqjGbynirzXVm94\",\n      \"MessageID\": \"1137487544.0.1794188407880@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°3 validée\",\n      \"Created\": \"2026-11-09T02:40:07.884+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 733,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"U2Gas5FzBasDvGLvnwUtmg\",\n      \"MessageID\": \"594272807.1.1794188393850@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°2 validée\",\n      \"Created\": \"2026-11-09T02:39:53.853+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 721,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"DuERq3RDyhhghAS6Ej5az6\",\n      \"MessageID\": \"1880656464.0.1794188393344@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°1 validée\",\n      \"Created\": \"2026-11-09T02:39:53.348+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 722,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission créée malgré la panne SMTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "smtp-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée malgré la panne SMTP\",\n  \"dureeJours\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"statut\", () => pm.expect(body[\"statut\"]).to.eql(\"VALIDEE\"));",
+                  "pm.test(\"Indicateur de rejeu\", () => pm.expect(pm.response.headers.get(\"Idempotency-Replayed\")).to.eql(\"false\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "smtp-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée malgré la panne SMTP\",\n  \"dureeJours\": 4\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "missions/4"
+                },
+                {
+                  "key": "Idempotency-Replayed",
+                  "value": "false"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 4,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée malgré la panne SMTP\",\n  \"dureeJours\": 4,\n  \"creeLe\": \"2026-11-09T01:40:15.605105Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Échec SMTP traité et message envoyé en DLQ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{rabbit}}/api/queues/%2F/entreprise.notifications.mission.dlq",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{rabbitUtilisateur}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{rabbitMotDePasse}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"name\", () => pm.expect(body[\"name\"]).to.eql(\"entreprise.notifications.mission.dlq\"));",
+                  "pm.test(\"Au moins un message en attente\", () => pm.expect(body.messages_ready).to.be.at.least(1));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:15672/api/queues/%2F/entreprise.notifications.mission.dlq",
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{rabbitUtilisateur}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{rabbitMotDePasse}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"consumer_details\": [],\n  \"arguments\": {\n    \"x-queue-type\": \"classic\"\n  },\n  \"auto_delete\": false,\n  \"consumer_capacity\": 0,\n  \"consumer_utilisation\": 0,\n  \"consumers\": 0,\n  \"deliveries\": [],\n  \"durable\": true,\n  \"effective_policy_definition\": {},\n  \"exclusive\": false,\n  \"exclusive_consumer_tag\": null,\n  \"garbage_collection\": {\n    \"fullsweep_after\": 65535,\n    \"max_heap_size\": 0,\n    \"min_bin_vheap_size\": 46422,\n    \"min_heap_size\": 233,\n    \"minor_gcs\": 16\n  },\n  \"head_message_timestamp\": null,\n  \"idle_since\": \"2026-11-09T02:40:22.983+01:00\",\n  \"incoming\": [],\n  \"memory\": 6320,\n  \"message_bytes\": 261,\n  \"message_bytes_paged_out\": 0,\n  \"message_bytes_persistent\": 261,\n  \"message_bytes_ram\": 261,\n  \"message_bytes_ready\": 261,\n  \"message_bytes_unacknowledged\": 0,\n  \"messages\": 1,\n  \"messages_details\": {\n    \"rate\": 0.2\n  },\n  \"messages_paged_out\": 0,\n  \"messages_persistent\": 1,\n  \"messages_ram\": 1,\n  \"messages_ready\": 1,\n  \"messages_ready_details\": {\n    \"rate\": 0.2\n  },\n  \"messages_ready_ram\": 1,\n  \"messages_unacknowledged\": 0,\n  \"messages_unacknowledged_details\": {\n    \"rate\": 0.0\n  },\n  \"messages_unacknowledged_ram\": 0,\n  \"name\": \"entreprise.notifications.mission.dlq\",\n  \"node\": \"rabbit@localhost\",\n  \"operator_policy\": null,\n  \"policy\": null,\n  \"reductions\": 13829,\n  \"reductions_details\": {\n    \"rate\": 354.0\n  },\n  \"single_active_consumer_tag\": null,\n  \"state\": \"running\",\n  \"storage_version\": 2,\n  \"type\": \"classic\",\n  \"vhost\": \"/\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mission créée pendant l’indisponibilité RabbitMQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "broker-{{execution}}"
+              }
+            ],
+            "url": "{{mission}}/missions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée pendant l’indisponibilité RabbitMQ\",\n  \"dureeJours\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.test(\"statut\", () => pm.expect(body[\"statut\"]).to.eql(\"VALIDEE\"));",
+                  "if (pm.response.code === 201) pm.collectionVariables.set(\"missionPanneBrokerId\", String(body.id));",
+                  "pm.test(\"Indicateur de rejeu\", () => pm.expect(pm.response.headers.get(\"Idempotency-Replayed\")).to.eql(\"false\"));"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Idempotency-Key",
+                    "value": "broker-719c0254-f71b-4ad1-95d0-e659c635c0f7"
+                  }
+                ],
+                "url": "http://localhost:8080/mission-service/missions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée pendant l’indisponibilité RabbitMQ\",\n  \"dureeJours\": 4\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "missions/5"
+                },
+                {
+                  "key": "Idempotency-Replayed",
+                  "value": "false"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5,\n  \"employeId\": 1,\n  \"departementId\": 1,\n  \"objet\": \"Mission créée pendant l’indisponibilité RabbitMQ\",\n  \"dureeJours\": 4,\n  \"creeLe\": \"2026-11-09T01:40:33.714939Z\",\n  \"statut\": \"VALIDEE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Courriel envoyé après reprise du broker",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{mailpit}}/api/v1/messages"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const id = pm.collectionVariables.get(\"missionPanneBrokerId\");",
+                  "const courriel = body.messages.find(m => m.Subject === `Mission n°${id} validée` && m.To.some(t => t.Address === \"sara@example.test\"));",
+                  "pm.test(\"Courriel de mission reçu par Sara\", () => pm.expect(courriel).to.exist);"
+                ]
+              }
+            }
+          ],
+          "response": [
+            {
+              "name": "Réponse observée",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:8025/api/v1/messages"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"total\": 5,\n  \"unread\": 5,\n  \"count\": 5,\n  \"messages_count\": 5,\n  \"messages_unread\": 5,\n  \"start\": 0,\n  \"tags\": [],\n  \"messages\": [\n    {\n      \"ID\": \"CbhEtcbS5S5dqLhsGA3M22\",\n      \"MessageID\": \"834931854.0.1794188439065@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°5 validée\",\n      \"Created\": \"2026-11-09T02:40:39.07+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 738,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Mission créée pendant l’indisponibilité RabbitMQ » a été validée. Département : Informatique Durée : 4 jour(s).\"\n    },\n    {\n      \"ID\": \"kdEjNmSdbzUqVJEjbbyFZH\",\n      \"MessageID\": \"1333194024.1.1794188408968@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°3 validée\",\n      \"Created\": \"2026-11-09T02:40:08.97+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 733,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"Wc6ezELPqjGbynirzXVm94\",\n      \"MessageID\": \"1137487544.0.1794188407880@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°3 validée\",\n      \"Created\": \"2026-11-09T02:40:07.884+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 733,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Livraison différée 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"U2Gas5FzBasDvGLvnwUtmg\",\n      \"MessageID\": \"594272807.1.1794188393850@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°2 validée\",\n      \"Created\": \"2026-11-09T02:39:53.853+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 721,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 36c3c5d5-acf9-40b7-b7c7-a0f827bbd587 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    },\n    {\n      \"ID\": \"DuERq3RDyhhghAS6Ej5az6\",\n      \"MessageID\": \"1880656464.0.1794188393344@47bd71fd9a20\",\n      \"Read\": false,\n      \"From\": {\n        \"Name\": \"\",\n        \"Address\": \"missions@entreprise.test\"\n      },\n      \"To\": [\n        {\n          \"Name\": \"\",\n          \"Address\": \"sara@example.test\"\n        }\n      ],\n      \"Cc\": null,\n      \"Bcc\": null,\n      \"ReplyTo\": [],\n      \"Subject\": \"Mission n°1 validée\",\n      \"Created\": \"2026-11-09T02:39:53.348+01:00\",\n      \"Username\": \"\",\n      \"Tags\": [],\n      \"Size\": 722,\n      \"Attachments\": 0,\n      \"Snippet\": \"Bonjour Sara Amrani, Votre mission « Audit réseau 719c0254-f71b-4ad1-95d0-e659c635c0f7 » a été validée. Département : Informatique Durée : 3 jour(s).\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
